@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.7'
 
 services:
   golang:
@@ -9,10 +9,14 @@ services:
     restart: always
     ports:
       - '9000:9000'
+    depends_on:
+      - prometheus
+
+
   prometheus:
     image: prom/prometheus:v2.24.0
     volumes:
-      - ./prometheus/:/etc/prometheus/
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
